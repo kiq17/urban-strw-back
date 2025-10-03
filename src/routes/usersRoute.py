@@ -155,4 +155,12 @@ def check_otp(tempLink: str, db: Session = Depends(get_db)):
        
     return {"detail": "Código válido"}
        
+
+@router.get("/link/{tempLink}", status_code=200)
+def check_link(tempLink: str, db: Session = Depends(get_db)):
+    findOtp = db.query(models.Otps).filter(models.Otps.temp_link == tempLink).first()
+
+
+    if findOtp is None:
+        raise HTTPException(status_code=404, detail="Url Inválida")
     
